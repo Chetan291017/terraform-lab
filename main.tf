@@ -9,7 +9,7 @@ terraform {
 
 provider "null" {}
 
-resource "null_resource" "create_file" {
+  resource "null_resource" "create_file" {}
   connection {
     type        = "ssh"
     host        = var.target_host
