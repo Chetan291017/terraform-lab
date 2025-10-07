@@ -17,11 +17,11 @@ resource "null_resource" "create_file" {
     private_key = file(var.private_key_path)
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "echo '✅ File created by Terraform CI/CD workflow' | sudo tee /tmp/terraform_ci_test.txt",
-      "hostname",
-      "ls -l /tmp/terraform_ci_test.txt"
-    ]
-  }
+provisioner "remote-exec" {
+  inline = [
+    "echo '✅ File created by Terraform CI/CD workflow' > /tmp/terraform_ci_test.txt",
+    "hostname",
+    "ls -l /tmp/terraform_ci_test.txt"
+  ]
 }
+
