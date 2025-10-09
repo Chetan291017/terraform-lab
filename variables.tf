@@ -1,14 +1,20 @@
-variable "target_host" {
-  description = "Target VM IP or hostname"
+variable "subscription_id" {
+  description = "Azure Subscription ID"
   type        = string
 }
 
-variable "ssh_user" {
-  description = "SSH username for target VM"
+variable "client_id" {
+  description = "Service Principal App ID"
   type        = string
 }
 
-variable "private_key_path" {
-  description = "Path to private SSH key"
+variable "client_secret" {
+  description = "Service Principal Password"
+  type        = string
+  sensitive   = true
+}
+
+variable "tenant_id" {
+  description = "Azure Tenant ID"
   type        = string
 }
