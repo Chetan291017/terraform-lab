@@ -22,7 +22,7 @@ jobs:
 
       - name: Apply Terraform
         env:
-          TF_VAR_target_host: 192.168.0.107
+          TF_VAR_target_host: 10.161.120.45
           TF_VAR_ssh_user: admino
           TF_VAR_private_key_path: /home/admino/.ssh/id_ed25519
         run: terraform apply -auto-approve
