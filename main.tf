@@ -74,29 +74,26 @@ resource "azurerm_linux_virtual_machine" "vm" {
   resource_group_name   = azurerm_resource_group.rg.name
   location              = var.location
   size                  = "Standard_B1s"
-  admin_username        = var.admin_username
-  network_interface_ids = [azurerm_network_interface.nic.id]
+  admin_username = var.ssh_user
+
+  network_interface_ids = [
+    azurerm_network_interface.nic.id
+  ]
 
   admin_ssh_key {
-    username   = "azureuser"
-    public_key = tls_private_key.ssh_key.public_key_openssh
-  }
-
-  identity {
-    type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.uami.id]
+    username   = var.ssh_user
+    public_key = file(var.public_key_path)
   }
 
   os_disk {
-    name                 = "${var.vm_name}-osdisk"
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
   }
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts"
     version   = "latest"
   }
 }
