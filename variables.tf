@@ -1,20 +1,23 @@
-variable "subscription_id" {
-  description = "Azure Subscription ID"
+variable "resource_group_name" {
+  description = "Name of the resource group"
   type        = string
+  default     = "CK-Demo"
 }
 
-variable "client_id" {
-  description = "Service Principal App ID"
+variable "location" {
+  description = "Azure region to deploy resources"
   type        = string
+  default     = "Central India"
 }
 
-variable "client_secret" {
-  description = "Service Principal Password"
+variable "vm_name" {
+  description = "Virtual Machine name"
   type        = string
-  sensitive   = true
+  default     = "CK-Demo-vm"
 }
 
-variable "tenant_id" {
-  description = "Azure Tenant ID"
+variable "admin_username" {
+  description = "Admin username for VM"
   type        = string
+  default     = "admino"
 }
