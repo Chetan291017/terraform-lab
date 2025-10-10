@@ -1,29 +1,32 @@
-name: Terraform CI/CD Demo
+name: Deploy First Azure VM using CI/CD and Terraform
 
-on:
-  push:
-    branches:
-      - main
-
+on: workflow_dispatch
+ 
 jobs:
   terraform:
+    name: Terraform Apply
     runs-on: self-hosted
+
+    env:
+      ARM_CLIENT_ID: ${{ secrets.AZ_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZ_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZ_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.AZ_TENANT_ID }}
+
     steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.7.5
+          terraform_version: 1.7.0
 
-      - name: Initialize Terraform
-        run: terraform init
+      - name: Terraform Init
+        run: terraform init --reconfigure
 
-      - name: Apply Terraform
-        env:
-          TF_VAR_target_host: 10.161.120.45
-          TF_VAR_ssh_user: admino
-          TF_VAR_private_key_path: /home/admino/.ssh/id_ed25519
-        run: terraform apply -auto-approve
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
 
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
