@@ -9,13 +9,13 @@ resource "azurerm_virtual_network" "vnet" {
   name                = "${var.vm_name}-vnet"
   address_space       = ["10.0.0.0/16"]
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = azurerm_resource_group.CK.name
 }
 
 # Subnet
 resource "azurerm_subnet" "subnet" {
   name                 = "${var.vm_name}-subnet"
-  resource_group_name  = azurerm_resource_group.rg.name
+  resource_group_name  = azurerm_resource_group.CK.name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.1.0/24"]
 }
@@ -24,7 +24,7 @@ resource "azurerm_subnet" "subnet" {
 resource "azurerm_public_ip" "pip" {
   name                = "${var.vm_name}-pip"
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = azurerm_resource_group.CK.name
   allocation_method   = "Static"
   sku                 = "Standard"
 }
@@ -33,7 +33,7 @@ resource "azurerm_public_ip" "pip" {
 resource "azurerm_network_interface" "nic" {
   name                = "${var.vm_name}-nic"
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = azurerm_resource_group.CK.name
 
   ip_configuration {
     name                          = "internal"
@@ -64,14 +64,14 @@ output "public_key_openssh" {
 # User-Assigned Managed Identity
 resource "azurerm_user_assigned_identity" "uami" {
   name                = "${var.vm_name}-uami"
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = azurerm_resource_group.CK.name
   location            = var.location
 }
 
 # Virtual Machine
 resource "azurerm_linux_virtual_machine" "vm" {
   name                  = var.vm_name
-  resource_group_name   = azurerm_resource_group.rg.name
+  resource_group_name   = azurerm_resource_group.CK.name
   location              = var.location
   size                  = "Standard_B1s"
   admin_username        = var.admin_username
