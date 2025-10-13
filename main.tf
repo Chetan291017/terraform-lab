@@ -4,6 +4,18 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
+resource "azurerm_storage_account" "chetan_sa" {
+  name                     = "ck291017" # Must be globally unique and lowercase
+  resource_group_name      = azurerm_resource_group.example_rg.name
+  location                 = azurerm_resource_group.example_rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS" # Locally Redundant Storage (choose based on requirements)
+
+  tags = {
+    environment = "dev"
+  }
+}
+
 # Virtual Network
 resource "azurerm_virtual_network" "vnet" {
   name                = "${var.vm_name}-vnet"
